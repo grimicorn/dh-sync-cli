@@ -44,6 +44,10 @@ const mockRecord2: Record = {
 };
 
 describe('fetchAllRecords', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
   it('returns [] when the initial fetch fails', async () => {
     global.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
     expect(await fetchAllRecords()).toEqual([]);
@@ -96,6 +100,10 @@ describe('fetchAllRecords', () => {
 });
 
 describe('fetchPaginatedRecords', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
   it('calls fetch with the correct URL and auth header', async () => {
     mockFetch({ data: [mockRecord], meta: mockPaginatedMeta });
     await fetchPaginatedRecords(2, 50);
@@ -130,6 +138,10 @@ describe('fetchPaginatedRecords', () => {
 });
 
 describe('createRecord', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
   it('calls fetch with POST, correct headers, and JSON:API body', async () => {
     mockFetch({ data: { attributes: mockRecord } });
     await createRecord('Test Title', 'Test Content');
@@ -173,6 +185,10 @@ describe('createRecord', () => {
 });
 
 describe('fetchRecord', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
   it('calls fetch with the correct UUID in the URL', async () => {
     mockFetch({ data: { attributes: mockRecord } });
     await fetchRecord('abc-123');
@@ -204,6 +220,10 @@ describe('fetchRecord', () => {
 });
 
 describe('deleteRecords', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
   it('calls fetch with DELETE, correct headers, and JSON:API body', async () => {
     mockFetch({ meta: mockMeta });
     await deleteRecords(['abc-123', 'def-456']);

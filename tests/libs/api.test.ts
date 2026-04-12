@@ -1,21 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import {
-  formatErrorMessages,
-  getApiToken,
-  getBaseUrl,
-  logErrorMessage,
-} from '@/libs/api.js';
+import { formatErrorMessages, getApiToken, getBaseUrl } from '@/libs/api.js';
 import { ApiError } from '@/types/api.types.js';
-
-describe('logErrorMessage', () => {
-  it('calls console.log', () => {
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    logErrorMessage('title', 'message');
-    expect(spy).toHaveBeenCalled();
-    spy.mockRestore();
-  });
-});
 
 describe('getBaseUrl', () => {
   const original = process.env.BASE_URL;

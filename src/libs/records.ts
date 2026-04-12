@@ -1,9 +1,5 @@
-import {
-  formatErrorMessages,
-  getApiToken,
-  getBaseUrl,
-  logErrorMessage,
-} from '@/libs/api.js';
+import { formatErrorMessages, getApiToken, getBaseUrl } from '@/libs/api.js';
+import { logErrorMessage } from '@/libs/errors.js';
 import { ApiDeleteMeta, ApiResponse } from '@/types/api.types.js';
 import { Record, PaginatedRecordsMeta } from '@/types/records.types.js';
 
