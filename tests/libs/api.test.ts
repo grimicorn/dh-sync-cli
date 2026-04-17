@@ -3,6 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { formatErrorMessages, getApiToken, getBaseUrl } from '@/libs/api.js';
 import { ApiError } from '@/types/api.types.js';
 
+vi.mock('@/libs/config.js', () => ({
+  config: { get: vi.fn() },
+}));
+
 describe('getBaseUrl', () => {
   const original = process.env.BASE_URL;
 

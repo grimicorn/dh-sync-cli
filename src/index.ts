@@ -5,10 +5,13 @@ import { writeMarkdown } from '@/libs/markdown.js';
 import yoctoSpinner from 'yocto-spinner';
 import cliSpinners from 'cli-spinners';
 import chalk from 'chalk';
+import { checkConfig } from '@/libs/config.js';
 
 const spinner = yoctoSpinner({ spinner: cliSpinners.dots });
 
 try {
+  await checkConfig();
+
   spinner.start('Fetching records...');
   const allRecords = await fetchAllRecords();
 
@@ -27,6 +30,6 @@ try {
   await deleteRecords(allRecords.map(({ uuid }) => uuid));
   spinner.success(`Wrote ${allRecords.length} records!`);
 } catch (error) {
-  spinner.error();
+  spinner.error('Something went wrong!');
   console.error(chalk.redBright(error));
 }

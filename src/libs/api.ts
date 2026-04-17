@@ -1,3 +1,4 @@
+import { config } from '@/libs/config.js';
 import { ApiError } from '@/types/api.types.js';
 
 export const getBaseUrl = () => {
@@ -5,7 +6,7 @@ export const getBaseUrl = () => {
 };
 
 export const getApiToken = () => {
-  return process.env.API_TOKEN;
+  return process.env.API_TOKEN ?? config.get('apiToken');
 };
 
 export const formatErrorMessages = (errors: ApiError[]) => {

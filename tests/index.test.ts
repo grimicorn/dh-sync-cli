@@ -1,7 +1,8 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Record } from '@/types/records.types.js';
 
+vi.mock('@/libs/config.js', () => ({ checkConfig: vi.fn() }));
 vi.mock('@/libs/records.js', () => ({ fetchAllRecords: vi.fn(), deleteRecords: vi.fn() }));
 vi.mock('@/libs/markdown.js', () => ({ writeMarkdown: vi.fn() }));
 vi.mock('yocto-spinner', () => ({ default: vi.fn() }));
@@ -22,6 +23,12 @@ describe('index', () => {
     vi.resetModules();
     vi.clearAllMocks();
     mockSpinner = { start: vi.fn(), success: vi.fn(), error: vi.fn() };
+    vi.spyOn(process, 'exit').mockImplementation(() => { throw new Error('process.exit'); });
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('fetches all records and writes each as markdown', async () => {
@@ -85,7 +92,6 @@ describe('index', () => {
 
     vi.mocked(yoctoSpinner).mockReturnValue(mockSpinner);
     vi.mocked(fetchAllRecords).mockRejectedValue(new Error('Network error'));
-    vi.spyOn(console, 'error').mockImplementation(() => {});
 
     await import('@/index.js');
 
