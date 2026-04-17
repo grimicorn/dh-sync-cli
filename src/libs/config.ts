@@ -7,6 +7,9 @@ const schema = {
   apiToken: {
     type: 'string',
   },
+  outputDirectory: {
+    type: 'string',
+  },
 };
 
 export const config = new Conf({
@@ -15,8 +18,14 @@ export const config = new Conf({
 });
 
 export const checkConfig = async () => {
+  // API Token
   if (!config.get('apiToken')) {
-    const apiToken = await input({ message: 'What is your Sync API Token' });
+    if (process.env.API_TOKEN) {
+      config.set('apiToken', process.env.API_TOKEN);
+      return;
+    }
+
+    const apiToken = await input({ message: 'Sync API Token' });
 
     if (!apiToken) {
       console.error(chalk.redBright('Sync API Token is required!'));
@@ -26,5 +35,20 @@ export const checkConfig = async () => {
     config.set('apiToken', apiToken);
   }
 
-  return;
+  // Output Directory
+  if (!config.get('outputDirectory')) {
+    if (process.env.OUTPUT_DIRECTORY) {
+      config.set('outputDirectory', process.env.OUTPUT_DIRECTORY);
+      return;
+    }
+
+    const outputDirectory = await input({ message: 'Output Directory' });
+
+    if (!outputDirectory) {
+      console.error(chalk.redBright('Output Directory is required!'));
+      process.exit();
+    }
+
+    config.set('outputDirectory', outputDirectory);
+  }
 };

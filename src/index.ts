@@ -12,6 +12,7 @@ const spinner = yoctoSpinner({ spinner: cliSpinners.dots });
 try {
   await checkConfig();
 
+  // Fetch records
   spinner.start('Fetching records...');
   const allRecords = await fetchAllRecords();
 
@@ -22,10 +23,12 @@ try {
 
   spinner.success(`Fetched ${allRecords.length} records!`);
 
+  // Write Records
   spinner.start('Writing records...');
   allRecords.forEach(writeMarkdown);
   spinner.success(`Wrote ${allRecords.length} records!`);
 
+  // Delete Records
   spinner.start('Deleting records...');
   await deleteRecords(allRecords.map(({ uuid }) => uuid));
   spinner.success(`Wrote ${allRecords.length} records!`);
