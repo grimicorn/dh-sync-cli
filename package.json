@@ -1,5 +1,5 @@
 {
-  "name": "dh-sync-cli",
+  "name": "@grimicorn/dh-sync-cli",
   "version": "0.1.0",
   "description": "",
   "type": "module",
